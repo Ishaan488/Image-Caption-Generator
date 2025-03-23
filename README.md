@@ -1,5 +1,3 @@
-# Image-Caption-Generator
-
 # Image Caption Generator
 
 This is a simple **Image Caption Generator** web application that uses **Google Gemini API** to generate captions for uploaded images.
