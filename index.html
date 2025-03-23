@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Caption Generator</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }
+        #preview { max-width: 300px; margin-top: 10px; display: none; }
+    </style>
+</head>
+<body>
+    <h2>Upload an Image to Generate a Caption</h2>
+    <input type="file" id="imageInput" accept="image/*">
+    <br><br>
+    <img id="preview" src="" alt="Image Preview">
+    <br><br>
+    <button onclick="uploadImage()">Generate Caption</button>
+    <h3 id="caption"></h3>
+
+    <script>
+        document.getElementById("imageInput").addEventListener("change", function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById("preview").src = e.target.result;
+                    document.getElementById("preview").style.display = "block";
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        async function uploadImage() {
+            const file = document.getElementById("imageInput").files[0];
+            if (!file) return alert("Please select an image");
+
+            const formData = new FormData();
+            formData.append("image", file);
+
+            try {
+                const response = await fetch("http://localhost:5000/generate-caption", {
+                    method: "POST",
+                    body: formData
+                });
+
+                const data = await response.json();
+                document.getElementById("caption").innerText = "Caption: " + data.caption;
+            } catch (error) {
+                console.error("Error:", error);
+                alert("Error generating caption");
+            }
+        }
+    </script>
+</body>
+</html>
