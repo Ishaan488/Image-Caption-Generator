@@ -1,4 +1,5 @@
 {
+  "type":"module",
   "name": "image-caption-generator",
   "version": "1.0.0",
   "description": "",
